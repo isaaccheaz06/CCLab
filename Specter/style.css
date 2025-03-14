@@ -1,0 +1,103 @@
+/*
+Template for IMA's Creative Coding Lab 
+
+Project A: Generative Creatures
+CCLaboratories Biodiversity Atlas 
+*/
+
+body {
+    background-color: black;
+    color: DimGray;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+/* title */
+#title-wrapper {
+    text-align: center;
+}
+
+.headline {
+    font-size: 3em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 600;
+    margin-top: 80px;
+    margin-bottom: 60px;
+}
+
+/* main content */
+#main-wrapper {
+    width: 800px;
+    position: relative;
+    margin: auto;
+}
+
+.black {
+    color: black;
+}
+
+.red {
+    color: DeepPink;
+}
+
+.green {
+    color: LightSeaGreen;
+}
+
+.yellow {
+    color: GoldenRod;
+}
+
+.two-columns {
+    display: flex;
+}
+
+.left {
+    width: 50%;
+    padding: 0px 10px 0px 0px;
+}
+
+.right {
+    width: 50%;
+    padding: 0px 0px 0px 10px;
+}
+
+#footer {
+    text-align: center;
+    font-size: 0.7em;
+    margin-top: 60px;
+    padding-bottom: 30px;
+}
+
+/* home button */
+#home a {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    padding: 5px 10px;
+    color: dimgrey;
+    border: solid grey 0.5px;
+    font-size: 0.6em;
+    text-decoration: none;
+}
+
+#home a:hover {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+/* p5.js sketch */
+canvas {
+    display: block;
+}
+
+#p5-canvas-container {
+    margin: auto;
+    width: 800px;
+}
+
+p {
+    text-align: justify;
+}
