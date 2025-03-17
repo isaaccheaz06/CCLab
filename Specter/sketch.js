@@ -61,9 +61,6 @@ function draw() {
                 2 -
                 current[i][j];
             current[i][j] = current[i][j] * dampening;
-            // Unlike in Processing, the pixels array in p5.js has 4 entries
-            // for each pixel, so we have to multiply the index by 4 and then
-            // set the entries for each color component separately.
             let index = (i + j * cols) * 4;
             pixels[index + 0] = current[i][j];
             pixels[index + 1] = current[i][j];
@@ -77,7 +74,6 @@ function draw() {
     current = temp;
 
     let timing = (frameCount / nFrames) * bruh;
-    //diameter of the circles, could be changed to creatures head and tail
     let diameter = 10;
 
     let xTwo = width / 3 + 90 * cos(TWO_PI * timing);
