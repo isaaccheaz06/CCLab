@@ -3,7 +3,7 @@ let meteors = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100);
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 200; i++) {
     meteors.push(new Meteor());
   }
 }
@@ -27,7 +27,7 @@ class Meteor {
     this.speedX = random(-0.5, 0.5);
     this.speedY = random(5, 20);
     this.size = random(1, 2);
-    this.lightness = random(60, 100);
+    this.hue = random(150, 300);
     this.prevX = this.x;
     this.prevY = this.y;
   }
@@ -45,11 +45,11 @@ class Meteor {
 
   display() {
     strokeWeight(this.size);
-    stroke(0, 0, this.lightness, 100);
+    stroke(this.hue, 80, 100, 200);
     line(this.prevX, this.prevY, this.x, this.y);
 
     noStroke();
-    fill(0, 0, this.lightness, 80);
+    fill(this.hue, 80, 100, 150);
     ellipse(this.x, this.y, this.size * 2); //head of the comets
   }
 }
