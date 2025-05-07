@@ -1,13 +1,17 @@
 let faceMesh;
+let handPose;
 let video;
+let hands = [];
 let faces = [];
 let options = { maxFaces: 2, refineLandmarks: false, flipHorizontal: false };
+let options2 = { maxHands: 4, modelType: "lite" };
 
 let vidWidth = 640;
 let vidHeight = 480;
 
 function preload() {
   faceMesh = ml5.faceMesh(options);
+  handPose = ml5.handPose(options2);
 }
 
 function setup() {
@@ -19,6 +23,7 @@ function setup() {
   video.hide();
 
   faceMesh.detectStart(video, gotFaces);
+  handPose.detectStart(video, gotHands);
   background(255);
 }
 
@@ -40,13 +45,12 @@ function draw() {
   translate(xOffset + vidWidth, yOffset);
   scale(-1, 1);
 
+  // Grid distortion
   for (let y = 0; y < video.height; y += gridSize) {
     stroke(0);
     noFill();
     beginShape();
     for (let x = 0; x < video.width; x += gridSize) {
-
-      //let flippedX = video.width - x - 1;
       let index = (x + y * video.width) * 4;
 
       let r = video.pixels[index + 0];
@@ -61,6 +65,7 @@ function draw() {
     endShape();
   }
 
+  // Face keypoints (colored)
   for (let i = 0; i < faces.length; i++) {
     let face = faces[i];
     for (let j = 0; j < face.keypoints.length; j++) {
@@ -82,9 +87,57 @@ function draw() {
     }
   }
 
+  // Hand keypoints and connections
+  const connections = [
+    [0, 1], [1, 2], [2, 3], [3, 4],
+    [5, 6], [6, 7], [7, 8],
+    [9, 10], [10, 11], [11, 12],
+    [13, 14], [14, 15], [15, 16],
+    [0, 17], [17, 18], [18, 19], [19, 20],
+    [1, 5], [5, 9], [9, 13], [13, 17],
 
+  ];
+
+  for (let i = 0; i < hands.length; i++) {
+    let hand = hands[i];
+    let keypoints = hand.keypoints;
+
+    // Draw connecting lines
+    stroke(0);
+    strokeWeight(2);
+    for (let k = 0; k < connections.length; k++) {
+      let [i1, i2] = connections[k];
+      let kp1 = keypoints[i1];
+      let kp2 = keypoints[i2];
+      line(kp1.x, kp1.y, kp2.x, kp2.y);
+    }
+
+    // Draw keypoints using video pixel color
+    noStroke();
+    for (let j = 0; j < keypoints.length; j++) {
+      let kp = keypoints[j];
+      let px = floor(kp.x);
+      let py = floor(kp.y);
+
+      if (px >= 0 && px < video.width && py >= 0 && py < video.height) {
+        let index = (px + py * video.width) * 4;
+        let r = video.pixels[index + 0];
+        let g = video.pixels[index + 1];
+        let b = video.pixels[index + 2];
+
+        fill(r, g, b);
+        circle(kp.x, kp.y, 8);
+      }
+    }
+  }
+
+  pop(); // end mirror transform
 }
 
 function gotFaces(results) {
   faces = results;
+}
+
+function gotHands(results) {
+  hands = results;
 }
