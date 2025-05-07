@@ -1,7 +1,7 @@
 let faceMesh;
 let video;
 let faces = [];
-let options = { maxFaces: 4, refineLandmarks: false, flipHorizontal: false };
+let options = { maxFaces: 2, refineLandmarks: false, flipHorizontal: false };
 
 let vidWidth = 640;
 let vidHeight = 480;
