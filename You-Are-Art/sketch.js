@@ -164,15 +164,15 @@ function draw() {
         drawingPoints = [];
       }
 
-      if (pinchDist3 < 20) {
-        colorcircle = color(random(255), random(255), random(255));
-      }
+      // if (pinchDist3 < 20) {
+      //   colorcircle = color(random(255), random(255), random(255));
+      // }
     }
 
     noStroke();
-    for (let pt of drawingPoints) {
-      fill(pt.c);
-      circle(pt.x - vidWidth / 2, pt.y - vidHeight / 2, 20);
+    for (let circles of drawingPoints) {
+      fill(circles.c);
+      circle(circles.x - vidWidth / 2, circles.y - vidHeight / 2, 20);
     }
   }
 
