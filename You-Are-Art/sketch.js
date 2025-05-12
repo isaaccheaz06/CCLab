@@ -67,13 +67,13 @@ function draw() {
     noStroke();
     textAlign(LEFT, TOP);
     textSize(16);
-    text("Hi. Make an OK sign to draw and play around to find the delete hand gesture!", width - vidWidth, 10);
+    text("Make an OK sign to draw and play around to find the delete hand gesture!", width - vidWidth, 10);
 
     push();
     stroke(0);
     strokeWeight(2);
     line(200, 0, 200, height);
-    line(width - 200, 0, width - 200, height);
+    line(width - vidWidth, 0, width - vidWidth, height);
     pop();
 
     if (elapsed < 15000) {
