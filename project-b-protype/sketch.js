@@ -98,7 +98,6 @@ function draw() {
       endShape();
     }
 
-    // Hand keypoints and connections
     const connections = [
       [0, 1], [1, 2], [2, 3], [3, 4],
       [5, 6], [6, 7], [7, 8],
@@ -112,7 +111,6 @@ function draw() {
       let hand = hands[i];
       let keypoints = hand.keypoints;
 
-      // Draw connecting lines
       stroke(0);
       strokeWeight(2);
       for (let k = 0; k < connections.length; k++) {
@@ -155,7 +153,7 @@ function draw() {
 
     }
 
-    // Draw all stored points
+
     noStroke();
     fill(0);
     for (let pt of drawingPoints) {
