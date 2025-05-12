@@ -10,8 +10,6 @@ let NowStartDrawing = false;
 let vidWidth = 1056;
 let vidHeight = 792;
 
-let pinch = 0;
-
 let drawingPoints = [];
 
 function preload() {
@@ -65,6 +63,12 @@ function draw() {
   if (showVideo) {
     let videoalpha = 0;
 
+    fill(0);
+    noStroke();
+    textAlign(LEFT, TOP);
+    textSize(16);
+    text("Hi. Make an OK sign to draw and play around to find the delete hand gesture!", width - vidWidth, 10);
+
     push();
     stroke(0);
     strokeWeight(2);
@@ -81,6 +85,7 @@ function draw() {
 
     push();
     translate(width / 2, height / 2);
+
     scale(-1, 1);
 
     // Grid distortion
