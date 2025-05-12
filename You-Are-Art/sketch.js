@@ -72,8 +72,8 @@ function draw() {
     push();
     stroke(0);
     strokeWeight(2);
-    line(200, 0, 200, height);
-    line(width - vidWidth, 0, width - vidWidth, height);
+    line((width - vidWidth) / 2, 0, (width - vidWidth) / 2, height);
+    line(width - (width - vidWidth) / 2, 0, width - (width - vidWidth) / 2, height);
     pop();
 
     if (elapsed < 15000) {
