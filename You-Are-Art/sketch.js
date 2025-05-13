@@ -69,7 +69,7 @@ function draw() {
     noStroke();
     textAlign(LEFT, TOP);
     textSize(16);
-    text("Make an OK sign to draw and play around to find the delete hand gesture!", width - vidWidth, 10);
+    text("Make an OK sign to draw and play around to find the delete hand gesture!", width - vidWidth, 50);
 
     push();
     stroke(0);
@@ -130,9 +130,6 @@ function draw() {
       }
     }
 
-
-
-
     if (NowStartDrawing) {
       for (let i = 0; i < hands.length; i++) {
         let hand = hands[i];
@@ -172,7 +169,7 @@ function draw() {
       noStroke();
       for (let circles of drawingPoints) {
         fill(circles.c);
-        circle(circles.x - vidWidth / 2, circles.y - vidHeight / 2, random(20, 30));
+        circle(circles.x - vidWidth / 2, circles.y - vidHeight / 2, random(15, 20));
       }
     }
   }
