@@ -11,6 +11,7 @@ let vidWidth = 1056;
 let vidHeight = 792;
 
 let drawingPoints = [];
+let currentColor = 0;
 
 function preload() {
   handPose = ml5.handPose(options);
@@ -18,6 +19,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 255);
 
   video = createCapture(VIDEO);
   video.size(vidWidth, vidHeight);
@@ -85,10 +87,8 @@ function draw() {
 
     push();
     translate(width / 2, height / 2);
-
     scale(-1, 1);
 
-    // Grid distortion
     for (let y = 0; y < video.height; y += gridSize) {
       stroke(0, videoalpha);
       noFill();
@@ -108,7 +108,6 @@ function draw() {
       endShape();
     }
 
-    // Hand keypoints and connections
     const connections = [
       [0, 1], [1, 2], [2, 3], [3, 4],
       [5, 6], [6, 7], [7, 8],
@@ -132,54 +131,58 @@ function draw() {
     }
 
 
-  }
 
-  let colorcircle = color(0, 0, 0);
 
-  if (NowStartDrawing) {
+    if (NowStartDrawing) {
+      for (let i = 0; i < hands.length; i++) {
+        let hand = hands[i];
+        let keypoints = hand.keypoints;
 
-    for (let i = 0; i < hands.length; i++) {
-      let hand = hands[i];
-      let keypoints = hand.keypoints;
+        let thumb = keypoints[4];
+        let index = keypoints[8];
+        let middle = keypoints[12];
+        let ring = keypoints[16];
+        let pinky = keypoints[20];
 
-      let thumb = keypoints[4];
-      let index = keypoints[8];
-      let middle = keypoints[12];
-      let ring = keypoints[16];
-      let pinky = keypoints[20];
+        let centerX = (index.x + thumb.x) / 2;
+        let centerY = (index.y + thumb.y) / 2;
 
-      let centerX = (index.x + thumb.x) / 2;
-      let centerY = (index.y + thumb.y) / 2;
+        let pinchDist = dist(index.x, index.y, thumb.x, thumb.y);
+        let pinchDist2 = dist(middle.x, middle.y, thumb.x, thumb.y);
+        let pinchDist3 = dist(ring.x, ring.y, thumb.x, thumb.y);
+        let pinchDist4 = dist(pinky.x, pinky.y, thumb.x, thumb.y);
 
-      let pinchDist = dist(index.x, index.y, thumb.x, thumb.y);
-      let pinchDist2 = dist(middle.x, middle.y, thumb.x, thumb.y);
-      let pinchDist3 = dist(ring.x, ring.y, thumb.x, thumb.y);
-      let pinchDist4 = dist(pinky.x, pinky.y, thumb.x, thumb.y);
+        if (pinchDist < 50) {
+          drawingPoints.push({
+            x: centerX,
+            y: centerY,
+            c: currentColor
+          });
+        }
 
-      if (pinchDist < 50) {
-        drawingPoints.push({ x: centerX, y: centerY, c: colorcircle });
+        if (pinchDist2 < 40 && pinchDist4 < 40 && pinchDist > 40 && pinchDist3 > 40) {
+          drawingPoints = [];
+        }
+
+        if (pinchDist3 < 50) {
+          currentColor = getRandomColor();
+        }
       }
 
-      if (pinchDist2 < 40 && pinchDist4 < 40) {
-        drawingPoints = [];
+      noStroke();
+      for (let circles of drawingPoints) {
+        fill(circles.c);
+        circle(circles.x - vidWidth / 2, circles.y - vidHeight / 2, random(20, 30));
       }
-
-      // if (pinchDist3 < 20) {
-      //   colorcircle = color(random(255), random(255), random(255));
-      // }
-    }
-
-    noStroke();
-    for (let circles of drawingPoints) {
-      fill(circles.c);
-      circle(circles.x - vidWidth / 2, circles.y - vidHeight / 2, 20);
     }
   }
-
-
   pop();
 }
 
 function gotHands(results) {
   hands = results;
+}
+
+function getRandomColor() {
+  return color(random(255), 200, 255);
 }
